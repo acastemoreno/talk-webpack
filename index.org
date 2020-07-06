@@ -1,0 +1,41 @@
+* Slide Options                           :noexport:
+# ======= Appear in cover-slide ====================
+#+TITLE: Webpack
+#+SUBTITLE: Module Bundler
+#+COMPANY: Codeable
+#+AUTHOR: Albert Castellano Moreno
+#+EMAIL: acastemoreno@gmail.com
+
+# ======= Appear in thank-you-slide ================
+#+GITHUB: http://github.com/acastemoreno
+
+# ======= Appear under each slide ==================
+#+FAVICON: images/webpack.png
+#+ICON: images/webpack.png
+#+HASHTAG: #Webpack
+
+# ======= Google Analytics =========================
+#+ANALYTICS: ----
+
+# ======= Org settings =========================
+#+EXCLUDE_TAGS: noexport
+#+OPTIONS: toc:nil num:nil ^:nil
+#+LANGUAGE: es
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="theme/css/custom.css" />
+
+* Basic types
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+* Thank You ʕ•ᴥ•ʔ
+:PROPERTIES:
+:SLIDE: thank-you-slide segue
+:ASIDE: right
+:ARTICLE: flexbox vleft auto-fadein
+:END:
+
+
+* Footnotes
