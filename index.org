@@ -35,13 +35,12 @@ Bundler
   - Entry
   - Output
   - Loader
-  - Mode
 
 Task Manager
   - Plugin
 
 ** Instalación
-#+BEGIN_SRC cmd
+#+BEGIN_SRC shell
 $ mkdir prueba-webpack && cd prueba-webpack
 $ yarn init
 ...
@@ -121,6 +120,7 @@ Nota1[fn:1]
 :END:
 Resultado final de la conversión de archivos indicados en =entry=
 #+BEGIN_SRC js
+# webpack.config.js
 module.exports = {
   output: {
     filename: './dist/main.js' # Default setting
@@ -129,6 +129,7 @@ module.exports = {
 #+END_SRC
 
 #+BEGIN_SRC js
+# webpack.config.js
 const path = require('path');
 
 module.exports = {
@@ -141,6 +142,7 @@ module.exports = {
 
 ** output: por cada archivo en entry
 #+BEGIN_SRC js
+# webpack.config.js
 const path = require("path");
 
 module.exports = {
@@ -156,7 +158,7 @@ module.exports = {
 Nota2[fn:2]
 #+END_QUOTE
 
-** FIX multiple output files
+** fix: multiple output files
 :PROPERTIES:
 :ARTICLE:  smaller
 :END:
@@ -171,8 +173,7 @@ const path = require("path");
     ret[path.split(/\/|\./).slice(-2)[0]] = path;
   });
   return ret;
-}
-</b>
+}</b>
 
 module.exports = {
   entry: <b>toObject(glob.sync("./src/js/*.js"))</b>,
@@ -188,6 +189,141 @@ module.exports = {
 Nota3[fn:3]
 #+END_QUOTE
 
+* Loader
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Loader
+Webpack out-of-box solo comprende JavaScript (=ES5=) y JSON. Los =loaders= permiten a webpack entender y procesar otro tipo de archivos.
+#+BEGIN_SRC js
+# webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  }
+};
+#+END_SRC
+
+#+BEGIN_SRC js
+# usage in any .js
+import txt from 'raw-loader!./file.txt';
+#+END_SRC
+
+** Process Images
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC shell
+$ yarn add file-loader --dev
+#+END_SRC
+
+#+BEGIN_SRC js
+module.exports = {
+  # ...
+  module: {
+    rules: [
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          { loader: "file-loader", options: { outputPath: "images" }},
+        ],
+      },
+    ],
+  },
+};
+#+END_SRC
+
+#+BEGIN_SRC js
+import Image from "../images/star.png";
+#+END_SRC
+
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+Nota4[fn:4]
+#+END_QUOTE
+
+* Plugin
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Plugins
+Plugins extiende las funcionalidades de Webpack, liberando la posibilidad de realizar diferentes tareas como =optimización, asset management y inyeccion de variables de entorno=.
+
+Algunos plugins que resultan utiles:
+- [[https://webpack.js.org/plugins/html-webpack-plugin/][HtmlWebpackPlugin]]: Simplifica el procesado de HTML files. Especialmente util cuando los archivos resultantes tiene algun *hash* en su nombre.
+- [[https://webpack.js.org/plugins/mini-css-extract-plugin/][MiniCssExtractPlugin]]: Los css importados en =.js= son extraidos en archivos separados.
+
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC shell
+$ yarn add <b>html-webpack-plugin html-loader</b> --dev
+#+END_SRC
+
+#+BEGIN_SRC js
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+
+const htmls = <b>glob.sync("./src/*.html")</b>.map((item) => {
+  const name_file = path.basename(item, path.extname(item));
+
+  <b>return new HtmlWebPackPlugin({
+    filename: `${name_file}.html`, template: item, chunks: [name_file] 
+  });</b>
+});
+
+module.exports = {
+  module: {
+    rules: [
+      <b>{
+        test: /\.html$/,
+        use: [
+          { loader: "html-loader", options: { minimize: true } }
+        ],
+      },</b>
+    ],
+  },
+  plugins: <b>htmls</b>,
+};
+#+END_SRC
+
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC shell
+$ yarn add <b>mini-css-extract-plugin css-loader sass-loader node-sass style-loader</b> --dev
+#+END_SRC
+
+#+BEGIN_SRC js
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.[s]?css$/,
+        use: [<b>MiniCssExtractPlugin.loader, "css-loader", "sass-loader"</b>],
+      },
+    ],
+  },
+  plugins: <b>[
+    new MiniCssExtractPlugin({
+      template: `./src/styles/[name].scss`,
+      filename: "./styles/[name].css",
+    }),
+  ].concat(htmls)</b>,
+};
+#+END_SRC
+
 * Thank You ʕ•ᴥ•ʔ
 :PROPERTIES:
 :SLIDE: thank-you-slide segue
@@ -200,3 +336,4 @@ Nota3[fn:3]
 [fn:1] Ejecutar =yarn run build= para revisar cual es el resultado. Demo branch "1"
 [fn:2] Ejecutar =yarn run build= para revisar cual es el resultado. Demo branchs "2"
 [fn:3] Ejecutar =yarn run build= para revisar cual es el resultado. Demo branchs "2-final"
+[fn:4] Ejecutar =yarn run build= para revisar cual es el resultado. Demo branchs "3"
