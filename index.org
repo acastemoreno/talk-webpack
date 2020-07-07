@@ -76,6 +76,7 @@ module.exports = {
 };
 #+END_SRC
 
+#+BEGIN_SRC js
 # webpack.config.js
 module.exports = {
   entry: {
@@ -85,6 +86,15 @@ module.exports = {
 };
 #+END_SRC
 
+** Todos los archivos de una carpeta como entry
+#+BEGIN_SRC js
+# webpack.config.js
+<b>const glob = require("glob");</b>
+
+module.exports = {
+  entry: <b>glob.sync("./src/js/*.js")</b>,
+};
+#+END_SRC
 
 
 
@@ -99,3 +109,4 @@ module.exports = {
 
 
 * Footnotes
+[fn:1] Ejecutar =yanr run build= para revisar cual es el resultado
