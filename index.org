@@ -68,11 +68,11 @@ module.export = {
 #+END_SRC
 
 ** Entry
-Punto de entrada en su funcionalidad como bundler.
+Punto de entrada en su funcionalidad como bundler. Solo archivos =js= o =json=
 #+BEGIN_SRC js
 # webpack.config.js
 module.exports = {
-  entry: './src/index.js'
+  entry: './src/index.js' # Default setting
 };
 #+END_SRC
 
@@ -86,7 +86,7 @@ module.exports = {
 };
 #+END_SRC
 
-** Todos los archivos de una carpeta como entry
+** Entry: todos los archivos de una carpeta
 #+BEGIN_SRC js
 # webpack.config.js
 <b>const glob = require("glob");</b>
@@ -96,9 +96,83 @@ module.exports = {
 };
 #+END_SRC
 
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+Nota1[fn:1]
+#+END_QUOTE
 
+** Output
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Resultado final de la conversión de archivos indicados en =entry=
+#+BEGIN_SRC js
+module.exports = {
+  output: {
+    filename: './dist/main.js' # Default setting
+  } 
+};
+#+END_SRC
 
+#+BEGIN_SRC js
+const path = require('path');
 
+module.exports = {
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'holi-woli.js'
+  }
+};
+#+END_SRC
+
+** output: por cada archivo en entry
+#+BEGIN_SRC js
+const path = require("path");
+
+module.exports = {
+  output: {
+    filename: "js/[name].js",
+    path: path.resolve(__dirname, "dist"),
+  },
+};
+#+END_SRC
+
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+Nota2[fn:2]
+#+END_QUOTE
+
+** FIX multiple output files
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC js
+const glob = require("glob");
+const path = require("path");
+
+<b>function toObject(paths) {
+  var ret = {};
+  paths.forEach(function (path) {
+    // you can define entry names mapped to [name] here
+    ret[path.split(/\/|\./).slice(-2)[0]] = path;
+  });
+  return ret;
+}
+</b>
+
+module.exports = {
+  entry: <b>toObject(glob.sync("./src/js/*.js"))</b>,
+  output: {
+    filename: "js/[name].js",
+    path: path.resolve(__dirname, "dist"),
+  },
+};
+#+END_SRC
+
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+Nota3[fn:3]
+#+END_QUOTE
 
 * Thank You ʕ•ᴥ•ʔ
 :PROPERTIES:
@@ -109,4 +183,6 @@ module.exports = {
 
 
 * Footnotes
-[fn:1] Ejecutar =yanr run build= para revisar cual es el resultado
+[fn:1] Ejecutar =yarn run build= para revisar cual es el resultado. Demo branch "1"
+[fn:2] Ejecutar =yarn run build= para revisar cual es el resultado. Demo branchs "2"
+[fn:3] Ejecutar =yarn run build= para revisar cual es el resultado. Demo branchs "2-final"
