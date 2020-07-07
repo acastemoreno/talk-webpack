@@ -67,6 +67,13 @@ module.export = {
 }
 #+END_SRC
 
+* Entry
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
 ** Entry
 Punto de entrada en su funcionalidad como bundler. Solo archivos =js= o =json=
 #+BEGIN_SRC js
@@ -100,6 +107,13 @@ module.exports = {
 #+BEGIN_QUOTE
 Nota1[fn:1]
 #+END_QUOTE
+
+* Output
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
 
 ** Output
 :PROPERTIES:
