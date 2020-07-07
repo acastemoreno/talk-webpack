@@ -1,7 +1,7 @@
 slides > slide:not(.nobackground):before {
 background: url(../../images/webpack.png) no-repeat 0 50%;
 font-size: 12pt;
-content: "#Webpack";
+content: "#webpack";
 position: absolute;
 bottom: 20px;
 left: 60px;

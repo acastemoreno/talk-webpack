@@ -1,7 +1,7 @@
 * Slide Options                           :noexport:
 # ======= Appear in cover-slide ====================
 #+TITLE: Webpack
-#+SUBTITLE: Module Bundler
+#+SUBTITLE: Module Bundler and Task Manager
 #+COMPANY: Codeable
 #+AUTHOR: Albert Castellano Moreno
 #+EMAIL: acastemoreno@gmail.com
@@ -12,7 +12,7 @@
 # ======= Appear under each slide ==================
 #+FAVICON: images/webpack.png
 #+ICON: images/webpack.png
-#+HASHTAG: #Webpack
+#+HASHTAG: #webpack
 
 # ======= Google Analytics =========================
 #+ANALYTICS: ----
@@ -23,12 +23,72 @@
 #+LANGUAGE: es
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="theme/css/custom.css" />
 
-* Basic types
+* Conceptos
   :PROPERTIES:
   :SLIDE:    segue dark quote
   :ASIDE:    right bottom
   :ARTICLE:  flexbox vleft auto-fadein
   :END:
+
+** Conceptos
+Bundler
+  - Entry
+  - Output
+  - Loader
+  - Mode
+
+Task Manager
+  - Plugin
+
+** Instalación
+#+BEGIN_SRC cmd
+$ mkdir prueba-webpack && cd prueba-webpack
+$ yarn init
+...
+$ yarn add webpack webpack-cli --dev
+#+END_SRC
+
+** Archivos base
+#+BEGIN_SRC js
+# package.json
+{
+#...
+  "scripts": {
+    "build": "webpack",
+  },
+#...
+}
+#+END_SRC
+
+#+BEGIN_SRC js
+# webpack.config.js
+module.export = {
+  # Most of the config go here
+}
+#+END_SRC
+
+** Entry
+Punto de entrada en su funcionalidad como bundler.
+#+BEGIN_SRC js
+# webpack.config.js
+module.exports = {
+  entry: './src/index.js'
+};
+#+END_SRC
+
+# webpack.config.js
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    adminApp: './src/adminApp.js'
+  }
+};
+#+END_SRC
+
+
+
+
+
 
 * Thank You ʕ•ᴥ•ʔ
 :PROPERTIES:
